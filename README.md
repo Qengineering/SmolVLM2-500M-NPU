@@ -1,21 +1,29 @@
-# InternVL3 NPU
+# SmolVLM2-500M NPU
 ![Alt text](https://github.com/user-attachments/assets/6d297a34-c516-4cb1-be4a-bca471d40fa6)
 <br><br>**User**:\<image\>Describe the image.<br><br>
-**Answer**: The image depicts an astronaut in a white space suit lounging on the moon's surface with a green bottle of soda in hand. The background features Earth from space and part of a lunar module, suggesting a surreal scene. The setting is dramatic, with the vastness of space surrounding the astronaut and the Moon itself.
+**Answer**: The image is a surreal and fantastical representation of a space station orbiting a planet in outer space. The station, which appears to be a large, cylindrical structure with multiple levels, is depicted as being made entirely of ice and water. The station's surface is covered in a thick layer of ice, creating a stark contrast against the barren landscape below.
+
+The planet itself is a dark, icy world, with no visible signs of life or vegetation. However, there are several large, glowing orbs scattered across the surface, which seem to be floating in mid-air. These orbs could be either stars or other celestial bodies, adding an element of mystery and wonder to the scene.
+
+The station's interior is also depicted as being made entirely of ice and water, with no visible doors or windows. The walls are covered in a thick layer of ice, creating a sense of isolation and confinement. However, there are several small, glowing orbs scattered throughout the interior, which could be either stars or other celestial bodies, adding an element of mystery and wonder to the scene.
+
+The overall composition of the image creates a sense of awe and wonder, as if the viewer is witnessing a scene from a science fiction movie or a fantasy novel. The use of ice and water as the primary material for the station's structure adds a unique and otherworldly element to the scene. The glowing orbs could be either stars or other celestial bodies, adding an element of mystery and wonder to the scene.
+
+Overall, the image is a beautiful and imaginative representation of a space station orbiting a planet in outer space, with ice and water as its primary materials. It creates a sense of isolation and confinement, while also adding an element of mystery and wonder to the scene. The use of ice and water as the primary material for the station's structure adds a unique and otherworldly element to the scene. The glowing orbs could be either stars or other celestial bodies, adding an element of mystery and wonder to the scene. The overall composition of the image creates a sense of awe and wonder, as if the viewer is witnessing a scene from a science fiction movie or a fantasy novel.
 
 ------------
 
-## InternVL3 VLM for RK3588 NPU (Rock 5, Orange Pi 5). <br/>
+## SmolVLM2-500M VLM for RK3588 NPU (Rock 5, Orange Pi 5). <br/>
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)<br/><br/>
-Paper: [InternVL3: Exploring Advanced Training and Test-Time Recipes for Open-Source Multimodal Models](https://arxiv.org/pdf/2504.10479)<br/><br/>
-Hugging face: https://huggingface.co/OpenGVLab/InternVL3-78B
+Paper: https://huggingface.co/blog/smolvlm2
+Hugging face: https://huggingface.co/blog/smolvlm2
 
 ------------
 
 ## Introduction
 
-LLMs (Large Language Models) are neural networks trained on large text datasets to understand and generate language.<br>
-VLMs (Vision-Language Models) add a visual encoder so the model can process images and text together.<br> 
+LLMs (Large Language Models) are neural networks trained on extensive text datasets to comprehend and produce language.<br>
+VLMs (Vision-Language Models) incorporate a visual encoder, allowing the model to process images and text simultaneously.<br> 
 A combined VLM+LLM system is often referred to as a multimodal model.
 
 These models can be large—hundreds of millions to billions of parameters—which impacts accuracy, memory use, and runtime speed.<br>
@@ -24,7 +32,6 @@ Because of this, models typically need to be quantised or simplified to fit.
 
 Performance is usually expressed in tokens (words) per second.<br>
 Once converted to RKNN, parts of the model can run on the NPU, improving speed.<br>
-Despite these limits, models like InternVL3 run well on the RK3588 because the NPU efficiently accelerates the heavy math, and the vision encoder can be optimised. This makes advanced multimodal AI feasible on small, power-efficient devices.
 
 ------------
 
@@ -33,17 +40,20 @@ Despite these limits, models like InternVL3 run well on the RK3588 because the N
 All models, with C++ examples, can be found on the Q-engineering GitHub.<br><br>
 All LLM models are quantized to **w8a8**, while the VLM vision encoders use **fp16**.<br>
 
-| model         | RAM (GB) | llm cold sec<sup>1</sup> | llm warm sec<sup>2</sup> | vlm cold sec<sup>1</sup> | vlm warm sec<sup>2</sup> | Resolution | Tokens/s |
+| model         | RAM (GB)<sup>1</sup> | llm cold sec<sup>2</sup> | llm warm sec<sup>3</sup> | vlm cold sec<sup>2</sup> | vlm warm sec<sup>3</sup> | Resolution | Tokens/s |
 | --------------| :--: | :-----: | :-----: | :--------: | :-----: | :--------:  | :--------: |
-| Qwen2         | | 29.1 |   2.5 | 17.1  | 1.7 | 392 x 392 | 12.5 |
-| InternVL3-1B  | 1.3 |  6.8 |   1.1 | 7.8    | 0.75 | 448 x 448 | 30 |
-| SmolVLM2-2.2B | | 21.2 |   2.6 | 10.5   | 0.9  | 392 x 392 | 11 |
-| SmolVLM2-500M | |  4.8 |   0.7 | 2.5    | 0.25 | 392 x 392 | 31 |
-| SmolVLM2-256M | |  1.1 |   0.4 | 2.5    | 0.25 | 392 x 392 | 54 |
+| [Qwen2](https://github.com/Qengineering/Qwen2-NPU)         | 3.3 | 29.1 |   2.5 | 17.1  | 1.7 | 392 x 392 | 12.5 |
+| [InternVL3-1B](https://github.com/Qengineering/InternVL3-NPU)  | 1.3 |  6.8 |   1.1 | 7.8    | 0.75 | 448 x 448 | 30 |
+| [SmolVLM2-2.2B](https://github.com/Qengineering/SmolVLM2-2B-NPU) | 3.4 | 21.2 |   2.6 | 10.5   | 0.9  | 384 x 384 | 11 |
+| [SmolVLM2-500M](https://github.com/Qengineering/SmolVLM2-500M-NPU) | 0.8 |  4.8 |   0.7 | 2.5    | 0.25 | 384 x 384 | 31 |
+| [SmolVLM2-256M](https://github.com/Qengineering/SmolVLM2-256M-NPU) | 0.5 |  1.1 |   0.4 | 2.5    | 0.25 | 384 x 384 | 54 |
 
-<sup>1</sup> When an llm/vlm model is loaded for the first time from your disk to RAM or NPU, it is called a cold start.<br>
-The duration depends on your OS, I/O transfer rate, and memory mapping.<br><br> 
-<sup>2</sup> Subsequent loading (warm start) takes advantage of the already mapped data in RAM. Mostly, only a few pointers need to be restored.<br>
+<sup>1</sup> The total used memory; LLM plus the VLM. <br>
+<sup>2</sup> When an llm/vlm model is loaded for the first time from your disk to RAM or NPU, it is called a cold start.<br>
+The duration depends on your OS, I/O transfer rate, and memory mapping.<br> 
+<sup>3</sup> Subsequent loading (warm start) takes advantage of the already mapped data in RAM. Mostly, only a few pointers need to be restored.<br><br>
+<img width="600" height="450" alt="vlm_memory_vs_mmmu" src="https://github.com/user-attachments/assets/a6f0df78-fee8-4e19-9e30-aef9305af670" /><br>
+
 
 ------------
 
@@ -71,24 +81,23 @@ $ sudo apt-get install lib-opencv-dev
 
 ## Installing the app.
 ```
-$ git clone https://github.com/Qengineering/InternVL3-NPU.git
+$ git clone https://github.com/Qengineering/SmolVLM2-500N-NPU.git
 ```
 
 #### RKLLM, RKNN
-To run InternVL3, you need to have the **rkllm-runtime** library version **1.2.2** (or higher) installed, as well as the **rknpu driver** version **0.9.8**.<br>
+To run SmolVLM2-500M, you need to have the **rkllm-runtime** library version **1.2.2** (or higher) installed, as well as the **rknpu driver** version **0.9.8**.<br>
 If you don't have these on your machine, or if you have a lower version, you need to install them.<br>
 We have provided the correct versions in the repo.<br>
 ```bash
-$ cd ./InternVL3-NPU/aarch64/library
+$ cd ./SmolVLM2-500M-NPU/aarch64/library
 $ sudo cp ./*.so /usr/local/lib
-$ cd ./InternVL3-NPU/aarch64/include
+$ cd ./SmolVLM2-500M-NPU/aarch64/include
 $ sudo cp ./*.h /usr/local/include
 ```
 ### Download the LLM and VLM model.
 The next step is downloading the models.<br>
-This time, we used the original model supplied by Rockchips [rkllm_model_zoo](https://console.box.lenovo.com/l/l0tXb8) (44 GB!), fetch code: rkllm.<br><br>
-Better to download only the two needed files (1.5 GB) from our Sync.com server:<br>
-[internvl3-1b_w8a8_rk3588.rkllm](https://ln5.sync.com/dl/2ac529d30#49g27fih-qe8mjmu9-prmas7px-uuyua5te) and [internvl3-1b_vision_fp16_rk3588.rknn](https://ln5.sync.com/dl/b565d2360#wmbmdbum-tk36pehc-5t4irskd-7gb6kfti)<br>
+Download the two files (700 MB) from our Sync.com server:<br>
+[smolvlm2-2.2b-instruct_w8a8_rk3588.rkllm](https://ln5.sync.com/dl/2ac529d30#49g27fih-qe8mjmu9-prmas7px-uuyua5te) and [smolvlm2-2.2b_vision_fp16_rk3588.rknn](https://ln5.sync.com/dl/b565d2360#wmbmdbum-tk36pehc-5t4irskd-7gb6kfti)<br>
 Copy both to your `./model` folder.
 
 ### Building the app.
@@ -127,14 +136,14 @@ This specifies the maximum total number of tokens the model can process in one g
 
 A typical command line can be:
 ```bash
-VLM_NPU ./Moon.jpg ./models/internvl3-1b_vision_fp16_rk3588.rknn ./models/internvl3-1b_w8a8_rk3588.rkllm 2048 4096
+VLM_NPU ./Moon.jpg ./models/SmolVLM2-2B-1b_vision_fp16_rk3588.rknn ./models/SmolVLM2-2B-1b_w8a8_rk3588.rkllm 2048 4096
 ```
 The NewTokens (2048) and ContextLength (4096) are optional and can be omitted.
 ### Using the app.
 Using the application is simple. Once you provide the image and the models, you can ask everything you want.<br>
-Remember, we are on a bare Rock5C, so don't expect the same quality answers as ChatGPT can provide.<br>
-On the other hand, when you see the examples below, the app performs amazingly well.<br><br>
-If you want to talk about the picture, you need to include the token `<image>` in your prompt once.<br>
+Remember, we are on a bare Rock5C with a tiny model, so don't expect the same quality answers as ChatGPT can provide.<br>
+If you want more sensible output, you'd better use a larger model like [InternVL3](https://github.com/Qengineering/InternVL3-NPU) or [Qwen](https://github.com/Qengineering/Qwen2-NPU).<br>
+If you like the response to include a discussion of the picture, include the `<image>` token once in your prompt.<br>
 The app remembers the dialogue until you give the token `<clear>`.<br>
 With `<exit>`, you leave the application.
 ### C++ code.  
@@ -186,67 +195,57 @@ std::cout << "\nLLM Answer: " << output_str << std::endl;
 ## VLM examples.
 | Image         | Dialog |
 | --------------| --  |
-| ![Singapore_S](https://github.com/user-attachments/assets/e742059a-3bdb-41be-9647-e7767da12ce6) |**User**: <image>Which city is this?<br>**Answer**: This image shows Singapore's iconic skyline at sunset. The distinctive Marina Bay Sands and the ArtScience Museum are prominent landmarks in Singapore. | 
-| ![ChineseWall_S](https://github.com/user-attachments/assets/3ba4b57a-4b22-4050-b995-9599c6d239de) |**User**: <image>Tell me something about the history of this place.<br>**Answer**: The Great Wall of China is an ancient defensive structure that has been built over thousands of years to protect against invasions from northern nomadic tribes. The wall stretches across central China, connecting the north and south of the country. It was constructed by the Chinese dynasties during the Qin Dynasty (221-206 BCE) and later expanded under various rulers including the Ming Dynasty (1368-1644). The Great Wall is not only a testament to engineering prowess but also a symbol of China's historical resilience and cultural heritage.|
-| ![Pizza_S](https://github.com/user-attachments/assets/26fd5da3-f491-4b48-978a-14eae0819247) |**User**: <image>What are the ingredients I need to make this?<br>**Answer**: To make this pizza, you'll need:<br>1. **Pizza Dough**: This is typically made from flour, water, yeast, and other ingredients.<br> 2. **Tomato Sauce**: A rich tomato-based sauce that provides flavor and color.<br> 3. **Cheese**: Mozzarella or another type of cheese for the melted cheese topping.<br> 4. **Fresh Basil Leaves**: For garnish and added freshness.<br>You can also add toppings like pepperoni, mushrooms, olives, or meats depending on your preference.<br><br>**User**: What is the first step?<br>**Answer**: The first step to making this pizza involves preparing the dough. Here's what you'll need:<br>1. **Prepare the Dough**:<br>**Ingredients**:<br>2 cups of all-purpose flour<br>3 teaspoons of active dry yeast<br>4 tablespoons of warm water (around 105°F to 115°F)<br>1 teaspoon of salt<br>**Instructions**:<br>1. In a large mixing bowl, combine the flour and salt.<br>2. Add the warm water and yeast mixture, stirring until the dough starts to come together.<br>3. Knead the dough on a floured surface for about 5 minutes, until it becomes smooth and elastic.<br>4. Place the dough in a lightly oiled bowl, cover with a damp cloth, and let it rise in a warm place for about 1 hour, or until doubled in size.<br>This will give you a soft, elastic pizza crust that will be great for your delicious homemade pizza!|
-| ![Titanic_S](https://github.com/user-attachments/assets/bf6da76c-c9a4-41c6-bea1-2b4411dd4013) |**User**: <image>Which movie is this?<br>**Answer**: This image appears to be from the movie "The Little Mermaid." It shows two characters on a ship at sunset, with one reaching out towards the sea. The setting and costumes suggest it's from the Disney film series.|
+| ![Singapore_S](https://github.com/user-attachments/assets/e742059a-3bdb-41be-9647-e7767da12ce6) |**User**: \<image\>Which city is this?<br>**Answer**: The image depicts the iconic Ferris wheel at the Ferris Wheel in San Francisco, California. The Ferris wheel is a large, circular structure that rotates to provide passengers with panoramic views of the city's skyline and surrounding waterfront area. It is one of the most recognizable landmarks in the world and has been a part of San Francisco's skyline since its construction in 1912.<br><br>The image shows the Ferris wheel from a low angle, looking up towards its top where the riders can see the city lights twinkling against the dark blue sky. The waterfront area is visible in the background, with buildings and boats dotting the shoreline. The Ferris wheel's height and design make it an iconic symbol of San Francisco's vibrant culture and history.<br><br>The image also includes a caption that reads "This is San Francisco! You can see the Ferris wheel from here!" This suggests that the location is in San Francisco, California, and that the viewer has been given permission to take a photo or video of the Ferris wheel. The caption may be intended to encourage viewers to visit San Francisco and capture the beauty of the city's iconic landmarks.<br><br>Overall, the image captures the essence of San Francisco's skyline and waterfront area, with the Ferris wheel serving as a symbol of the city's unique blend of history, culture, and natural beauty.|
+| ![ChineseWall_S](https://github.com/user-attachments/assets/3ba4b57a-4b22-4050-b995-9599c6d239de) |**User**: \<image\>Tell me something about the history of this place.<br>**Answer**: The ancient city of Angkor Wat, located in Cambodia, is one of the most fascinating and mysterious places on Earth. This UNESCO World Heritage Site has been a centerpiece of Cambodian culture for centuries, and its rich history spans over 1,200 years. Here's a brief overview:<br>**History:**<br>Angkor Wat was built by King Suryavarman I in the 12th century AD. The city was founded on the banks of the Mekong River and grew into a major center of trade, culture, and power during the Khmer Empire (902-1438 AD). The city's name means "City of the Sun" or "City of the Sun God," reflecting its role as a religious and cultural hub.<br><br>**Architecture:**<br>Angkor Wat is renowned for its stunning architectural achievements, including:<br>1. **Temple Complex:** The temple complex consists of several interconnected temples, each with its own unique design and features. The most famous temple is the Angkor Wat Temple, which is dedicated to the Hindu god Vishnu.<br>2. **Statues and Sculptures:** The city is home to numerous statues and sculptures, including the famous Buddha statue in the Bayon Temple complex. These statues are intricately carved and depict various deities and scenes from Hindu mythology.<br>3. **Architecture:** Angkor Wat's architecture is characterized by its use of stone carvings, intricate carvings, and ornate decorations. The city's buildings are often decorated with murals depicting scenes from Hindu mythology and the lives of the royal family.<br>4. **Moat and Wall:** The city was surrounded by a massive moat, which was used to protect the city from invaders. The wall surrounding the city is also impressive, featuring towers, gates, and other defensive structures.<br><br> **Symbolism:**<br>Angkor Wat has been imbued with symbolic significance over time:<br>1. **The Sun God:** The city's name means "City of the Sun," reflecting its role as a religious and cultural hub.<br>2. **Rituals and Sacrifices:** Angkor Wat was built to honor the Hindu god Vishnu, who is said to have descended from heaven to protect the city.<br>3. **Symbolism of the City:** The city's architecture and design are often seen as a symbol of Cambodia's rich cultural heritage and its connection to ancient traditions.<br>4. **Connection to the Divine:** Angkor Wat has been interpreted as a place where the divine can be accessed, offering visitors a glimpse into the spiritual realm.<br><br>**Today:**<br>Angkor Wat is now a UNESCO World Heritage Site, attracting millions of visitors each year. The city's rich history and cultural significance continue to inspire art, literature, and music. Visitors can explore the temple complex, take guided tours, or simply marvel at its stunning architecture and symbolism.<br><br>In summary, Angkor Wat is a remarkable place that has played a significant role in Cambodian culture for centuries. Its architectural achievements, symbolic significance, and rich history make it an awe-inspiring destination for anyone interested in exploring the ancient past.|
+| ![Pizza_S](https://github.com/user-attachments/assets/26fd5da3-f491-4b48-978a-14eae0819247) |**User**: \<image\>What are the ingredients I need to make this?<br>**Answer**:To make a delicious pizza, you'll need some basic ingredients and tools. Here's a step-by-step guide to help you get started:<br><br>**Ingredients:**<br>1. **Pizza dough**: This is the foundation of your pizza. You can use store-bought or homemade dough.<br>2. **Toppings**: Choose your favorite toppings, such as cheese (mozzarella, pepperoni, sausage, mushrooms), sauce (tomato, marinara, pesto), and vegetables (onions, bell peppers).<br>3. **Cheese**: You can use mozzarella, pepperoni, or other types of cheese depending on your preference.<br>4. **Sauce**: Tomato sauce is a classic choice, but you can also use marinara, pesto, or other sauces.<br>5. **Vegetables**: Onions, bell peppers, mushrooms, and olives are all great toppings.<br>6. **Cheese grates**: You'll need cheese grated on top of the pizza dough.<br>7. **Pizza cutter**: A pizza cutter can help you cut your toppings into even pieces.<br>8. **Pizza peel or rolling pin**: These tools will help you roll out the dough and shape the pizza.<br>9. **Pizza server**: This tool is used to transfer the pizza from the cutting board to a plate or baking dish.<br>10. **Baking sheet**: A baking sheet lined with parchment paper is essential for baking your pizza.<br><br>**Tools:**<br>1. **Pizza cutter**: You can use a pizza cutter to cut your toppings into even pieces.<br>2. **Pizza peel or rolling pin**: These tools will help you roll out the dough and shape the pizza.<br>3. **Pizza server**: This tool is used to transfer the pizza from the cutting board to a plate or baking dish.<br>4. **Baking sheet**: A baking sheet lined with parchment paper is essential for baking your pizza.<br>5. **Oven mitt**: An oven mitt can help you handle hot ingredients safely.<br>6. **Pizza thermometer**: This tool helps you check the temperature of your pizza while it's cooking.<br>7. **Measuring cups and spoons**: These tools are necessary to measure ingredients accurately.<br>8. **Cooking spray**: A cooking spray, such as olive oil or butter, can help prevent sticking during baking.<br>9. **Pizza stone or baking mat**: If you're using a pizza oven, these tools will help you cook your pizza evenly.<br>10. **Pizza pan**: A pizza pan is essential for baking your pizza in the oven.<br><br>**Tips and Variations:**<br>* Use fresh ingredients to ensure the best flavor and texture.<br>* Experiment with different types of cheese, sauces, and vegetables to create unique toppings.<br>* Add some extra flavor by using a marinara sauce or a spicy pepperoni.<br>* Try making a pizza with a variety of cheeses, such as mozzarella, feta, or goat cheese.<br>* Use a pizza cutter to cut your toppings into even pieces and shape the pizza.<br>* Don't forget to add some extra toppings, like olives or mushrooms, to make your pizza more delicious!<br><br>Now that you have all the ingredients and tools, it's time to get started! Follow these steps to create your own delicious pizza:<br>1. Preheat your oven to 425°F (220°C).<br>2. Roll out a piece of pizza dough on a floured surface until it's about 1/8 inch thick.<br>3. Add your desired toppings, such as cheese, sauce, and vegetables.<br>4. Use a pizza cutter to cut the toppings into even pieces.<br>5. Place the pizza in a baking sheet lined with parchment paper.<br>6. Bake for 10-12 minutes or until the crust is golden brown.<br>7. Remove the pizza from the oven and let it cool on a wire rack for at least 30 minutes before serving.<br><br>Enjoy your delicious homemade pizza!<br><br>**User**: What is the first step?<br>**Answer**:The first step in making a pizza is to prepare the dough. This involves mixing flour, water, yeast, salt, and other ingredients to create a smooth and elastic dough. You can use store-bought or homemade dough, but it's recommended to start with homemade dough for better texture and flavor.<br>Here are some tips to get you started:<br>1. **Mix the ingredients**: In a large bowl, combine flour, water, yeast (if using), salt, and any other desired ingredients like olive oil or herbs. Mix until the mixture forms a cohesive ball.<br>2. **Knead the dough**: Turn the dough out onto a floured surface and knead it for about 10-15 minutes, until it becomes smooth and elastic. This process helps develop gluten in the dough, which gives it structure and chewiness.<br>3. **Let it rise**: Place the kneaded dough in a greased bowl, cover it with plastic wrap or a damp towel, and let it rise for about 2 hours or overnight. During this time, the yeast will ferment the sugars, producing carbon dioxide gas that helps the dough rise.<br>4. **Punch down the dough**: Once the dough has risen, punch it down to release any air bubbles and shape it into a ball. You can use a stand mixer with a dough hook attachment or a hand mixer to do this.<br>5. **Add your favorite toppings**: Now it's time to add your desired toppings to the pizza dough. This could be cheese, sauce, vegetables, meats, olives, mushrooms, and more!<br>6. **Let it rest**: After adding your toppings, let the dough rise again for another 30-45 minutes or until it becomes smooth and elastic.<br>7. **Shape the pizza**: Once the dough has risen, shape it into a round or oblong form using a rolling pin or your hands.<br>8. **Add the sauce and cheese**: Spread the tomato sauce evenly over the top of the dough, then add your desired toppings.<br>9. **Bake the pizza**: Place the pizza on a baking sheet lined with parchment paper and bake in a preheated oven at 425°F (220°C) for about 10-12 minutes or until the crust is golden brown and the cheese is melted and bubbly.<br><br>Remember to always follow proper food safety guidelines when making pizza, such as washing your hands and utensils after handling raw ingredients. Happy baking!|
+| ![Titanic_S](https://github.com/user-attachments/assets/bf6da76c-c9a4-41c6-bea1-2b4411dd4013) |**User**: \<image\>Which movie is this?<br>**Answer**: This image appears to be a promotional poster for the movie "The Hunger Games: Catching Fire". The text on the poster includes the title of the film, which is written in large, bold letters at the top. Below the title, there are two images of characters from the movie, one on each side of the poster. These characters appear to be in a fighting stance, suggesting that they are ready for battle or have just fought. The background of the poster features a gradient of colors, with the darker areas representing the night sky and the lighter areas representing the moonlit landscape. The overall color scheme is dark and moody, which is consistent with the tone of the movie's themes. The poster also includes some text at the bottom that reads "The Hunger Games: Catching Fire", which is likely a reference to the title of the film. Overall, the image suggests that this is a promotional poster for the movie "The Hunger Games: Catching Fire"|
 
 ## LLM example.
-Notice the nice Markdown makeup of the answer!<br><br>
 **User**: Can you make me a C++ call that embeds the Pythagorean theorem?<br><br>
-**Answer**: Certainly! The Pythagorean theorem is a fundamental principle in geometry stating that in a right-angled triangle, the square of the length of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the lengths of the other two sides. In mathematical terms:
-
-\[ c^2 = a^2 + b^2 \]
-
-where \( c \) is the length of the hypotenuse, and \( a \) and \( b \) are the lengths of the other two sides.
-
-To implement this in C++, you can use the following code snippet. This example will calculate the distance between two points using the Pythagorean theorem:
-
+**Answer**:Here's an example of how you can use the `sqrt` function to calculate the square root of a number and then apply the Pythagorean theorem:
 ```cpp
 #include <iostream>
-#include <cmath> // For sqrt function
-
-// Function to calculate the Euclidean distance between two points (x1, y1) and (x2, y2)
-double calculateDistance(double x1, double y1, double x2, double y2) {
-    return std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-}
-
+using namespace std;
 int main() {
-    // Coordinates of the two points
-    double x1 = 3.0;
-    double y1 = 4.0;
-    double x2 = 6.0;
-    double y2 = 8.0;
-
-    // Calculate the distance using the Pythagorean theorem
-    double distance = calculateDistance(x1, y1, x2, y2);
-
-    // Output the result
-    std::cout << "The distance between points (" << x1 << ", " << y1 << ") and (" << x2 << ", " << y2 << ") is: " << distance << std::endl;
-
+    double hypotenuse = sqrt(25); // 5
+    double base = hypotenuse / 2; // 7.5
+    cout << "The length of the hypotenuse is: " << hypotenuse << endl;
+    cout << "The length of the base is: " << base << endl;
     return 0;
 }
 ```
+This code calculates the square root of 25 (which is 5) and then divides it by 2 to get the length of the hypotenuse. The result is stored in `base`, which is printed to the console. Note that this assumes you have a variable named `hypotenuse` that holds the square root of 25, and another variable named `base` that holds the length of the base. If you don't have these variables, you'll need to modify the code accordingly.
 
-### Explanation:
-1. **Include Necessary Headers**: The `#include <iostream>` header is used for input-output operations, and the `#include <cmath>` header provides access to mathematical functions like `sqrt`.
+Alternatively, you can use the Pythagorean theorem directly in your main function:
+```cpp
+#include <iostream>
+using namespace std;
+int main() {
+    double hypotenuse = 5; // 5
+    double base = hypotenuse / 2; // 7.5
+    cout << "The length of the hypotenuse is: " << hypotenuse << endl;
+    cout << "The length of the base is: " << base << endl;
+    return 0;
+}
+```
+This code calculates the square root of 25 and then divides it by 2 to get the length of the hypotenuse. The result is stored in `base`, which is printed to the console. Note that this assumes you have a variable named `hypotenuse` that holds the square root of 25, and another variable named `base` that holds the length of the base. If you don't have these variables, you'll need to modify the code accordingly.
 
-2. **Function Definition**:
-   - `double calculateDistance(double x1, double y1, double x2, double y2)`: This function takes four parameters representing the coordinates of two points in a 2D plane and returns the Euclidean distance between them.
-
-3. **Main Function**:
-   - The main function initializes the coordinates of the two points.
-   - It then calls `calculateDistance` to compute the distance using the Pythagorean theorem.
-   - Finally, it prints out the calculated distance.
-
-This code will output the distance between the points (3, 4) and (6, 8), which is approximately 5.196152.
-
-Feel free to modify the coordinates or use this as a starting point for other geometric calculations!
+Both examples will output:
+```
+The length of the hypotenuse is: 5
+The length of the base is: 7.5
+```
+I hope this helps! Let me know if you have any questions. 
 
 ------------
 
 [![paypal](https://qengineering.eu/images/TipJarSmall4.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CPZTM5BB3FCYL) 
 
+------------
+## Appendix.
+Porting the vision module of SmolVLM2 to rknn requires modifications to the intermediate ONNX file.<br>
+Specifically, the indices for the Gather operation must be converted from a floating-point (FP16) data type to an integer. Please refer to the following image for an example.<br>
 
 
-
+<img width="325" height="285" alt="Screenshot from 2025-10-28 10-19-46" src="https://github.com/user-attachments/assets/e52075bd-b800-4fac-92b9-feea5f1e18fb" />
+<img width="325" height="285" alt="Screenshot from 2025-10-28 10-20-45" src="https://github.com/user-attachments/assets/621ec0ba-f5d7-451b-beb2-3a6dc2cdf08c" />
